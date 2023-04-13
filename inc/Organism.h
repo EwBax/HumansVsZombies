@@ -10,8 +10,7 @@
 #include <array>
 
 #include "GameSpecs.h"
-
-class City;
+#include "City.h"
 
 class Organism
 {
@@ -22,21 +21,23 @@ protected:
     bool hasMoved;
     City *city;
 
-    enum { WEST, NORTH, EAST, SOUTH, NUM_DIRECTIONS } typedef direction;
+    enum {WEST, NORTH, EAST, SOUTH} typedef direction;
 
 public:
     Organism();
     Organism(City* city, int x, int y, char orgType)
-    : city(city), x(x), y(y), orgType(orgType) {};
+    : city(city), x(x), y(y), orgType(orgType), hasMoved(false) {};
     virtual ~Organism();
 
     virtual void move() = 0;
     virtual void turn() = 0;
+    void resetHasMoved();
     //virtual void spawn() = 0;
     //virtual int getSpecies() = 0; //this could also be coded concrete here
     //virtual void getPosition() = 0;
 
     void setPosition(int newX, int newY);
+    char getOrgType() const {return orgType;}
     void endTurn();
     bool isTurn();
 

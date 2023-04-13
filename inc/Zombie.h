@@ -7,22 +7,32 @@
 
 #include "Organism.h"
 
+
 class Zombie : public Organism
 {
 protected:
-    enum { WEST, NORTH_WEST, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST,
-            NUM_DIRECTIONS } typedef direction;
+    int breedCounter;
+    int starveCounter;
+
+    enum {WEST, NORTH_WEST, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH,
+            SOUTH_WEST} typedef direction;
 
 public:
     Zombie();
-    Zombie(City* city, int x, int y) : Organism(city, x, y, ZOMBIE_CH) {};
+    Zombie(City* city, int x, int y)
+    : Organism(city, x, y, ZOMBIE_CH), breedCounter(0), starveCounter(0) {};
     virtual ~Zombie();
 
     void move() override;
     void turn() override;
+    bool breed();
+    void starve();
+
     std::vector<direction> findOpenDirections();
-    direction pickDirection(std::vector<direction> directions);
+    static direction pickDirection(std::vector<direction> directions);
     std::vector<direction> findHumanDirections();
+
+
 };
 
 

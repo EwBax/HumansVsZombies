@@ -5,17 +5,17 @@
 
 
 #include "../inc/Human.h"
-#include "../inc/City.h"
 
 // Function to run the Human's turn including movement and recruiting
 void Human::turn() {
 
     if (!hasMoved) {
         move();
+        hasMoved = true;
         recruitCounter++;
 
         // Recruiting and resetting counter
-        if (recruitCounter >= 3) {
+        if (recruitCounter >= HUMAN_RECRUIT) {
             recruit();
             recruitCounter = 0;
         }
@@ -35,10 +35,10 @@ void Human::move() {
         // Getting the random chosenDirection to move in
         direction chosenDirection = pickDirection(openDirections);
 
+        // Setting the Human's new position
         switch (chosenDirection) {
 
             case WEST:
-                // Setting the Human's new position
                 setPosition(x - 1, y);
                 break;
 
@@ -57,13 +57,10 @@ void Human::move() {
         } // end switch
     }
 
-    // Changing hasMoved flag
-    hasMoved = true;
-
 } // end function move
 
 
-// Randomly picking from open directions
+// Randomly picking from directions
 Organism::direction Human::pickDirection(std::vector<direction> directions) {
 
     //https://www.digitalocean.com/community/tutorials/random-number-generator-c-plus-plus

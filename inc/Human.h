@@ -6,7 +6,6 @@
 #define HUMANSVSZOMBIES_HUMAN_H
 
 #include "Organism.h"
-#include "GameSpecs.h"
 
 class Human : public Organism
 {
@@ -22,7 +21,7 @@ public:
     void move() override;
     void turn() override;
     std::vector<direction> findOpenDirections();
-    direction pickDirection(std::vector<direction> directions);
+    static direction pickDirection(std::vector<direction> directions);
 
     void recruit();
 };
