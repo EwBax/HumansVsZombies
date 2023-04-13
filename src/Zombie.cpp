@@ -8,3 +8,9 @@
 void Zombie::turn() {
 
 }
+
+std::vector<Zombie::direction> Zombie::findHumanDirections() {
+
+    //TODO copy implementation of human findOpenDirections but check for orgType
+}
+

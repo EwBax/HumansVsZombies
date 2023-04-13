@@ -21,8 +21,8 @@ public:
 
     void move() override;
     void turn() override;
-    std::vector<direction> findOpenDirections() override;
-    direction pickDirection(std::vector<direction> openDirections) override;
+    std::vector<direction> findOpenDirections();
+    direction pickDirection(std::vector<direction> directions);
 
     void recruit();
 };

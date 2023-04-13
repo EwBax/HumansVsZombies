@@ -11,7 +11,7 @@ class Zombie : public Organism
 {
 protected:
     enum { WEST, NORTH_WEST, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST,
-            NUM_DIRECTIONS };
+            NUM_DIRECTIONS } typedef direction;
 
 public:
     Zombie();
@@ -20,8 +20,9 @@ public:
 
     void move() override;
     void turn() override;
-    std::vector<direction> findOpenDirections() override;
-    direction pickDirection(std::vector<direction> openDirections) override;
+    std::vector<direction> findOpenDirections();
+    direction pickDirection(std::vector<direction> directions);
+    std::vector<direction> findHumanDirections();
 };
 
 

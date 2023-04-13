@@ -32,8 +32,6 @@ public:
 
     virtual void move() = 0;
     virtual void turn() = 0;
-    virtual std::vector<direction> findOpenDirections() = 0;
-    virtual direction pickDirection(std::vector<direction> openDirections) = 0;
     //virtual void spawn() = 0;
     //virtual int getSpecies() = 0; //this could also be coded concrete here
     //virtual void getPosition() = 0;

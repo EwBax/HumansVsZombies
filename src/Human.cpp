@@ -64,15 +64,15 @@ void Human::move() {
 
 
 // Randomly picking from open directions
-Organism::direction Human::pickDirection(std::vector<direction> openDirections) {
+Organism::direction Human::pickDirection(std::vector<direction> directions) {
 
     //https://www.digitalocean.com/community/tutorials/random-number-generator-c-plus-plus
     // Providing seed value
     srand((unsigned) time(nullptr));
 
-    int direction = rand() % openDirections.size();
+    int direction = rand() % directions.size();
 
-    return openDirections.at(direction);
+    return directions.at(direction);
 }
 
 
