@@ -14,22 +14,18 @@ protected:
     int breedCounter;
     int starveCounter;
 
-    enum {WEST, NORTH_WEST, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH,
-            SOUTH_WEST} typedef direction;
-
 public:
-    Zombie();
+    Zombie() = default;
     Zombie(City* city, int x, int y)
     : Organism(city, x, y, ZOMBIE_CH), breedCounter(0), starveCounter(0) {};
-    virtual ~Zombie();
+    ~Zombie() override = default;
 
     void move() override;
     void turn() override;
     bool breed();
     void starve();
 
-    std::vector<direction> findOpenDirections();
-    static direction pickDirection(std::vector<direction> directions);
+    std::vector<direction> findOpenDirections() override;
     std::vector<direction> findHumanDirections();
 
 

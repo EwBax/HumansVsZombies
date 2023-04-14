@@ -19,19 +19,20 @@ int main() {
 
     chrono:: milliseconds interval(INTERVAL);
 
-    while (city->hasDiversity()) { //while both humans and zombies exist
+    while (city->hasDiversity() && city->getGeneration() < ITERATIONS) { //while both humans and zombies
+        // exist
 
         this_thread::sleep_for(interval);
 
         ClearScreen();
 
-        city->move(); //includes all actions
-        city->reset(); //resets moved flags
-
         cout << *city; //prints city
         cout << "GENERATION " << city->getGeneration() << endl;
         cout << "HUMANS: " << city->countType(HUMAN_CH) << endl;
         cout << "ZOMBIES: " << city->countType(ZOMBIE_CH) << endl;
+
+        city->move(); //includes all actions
+        city->reset(); //resets moved flags
 
     }//end while
 

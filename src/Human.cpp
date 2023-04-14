@@ -5,6 +5,7 @@
 
 
 #include "../inc/Human.h"
+#include "../inc/City.h"
 
 // Function to run the Human's turn including movement and recruiting
 void Human::turn() {
@@ -60,19 +61,6 @@ void Human::move() {
 } // end function move
 
 
-// Randomly picking from directions
-Organism::direction Human::pickDirection(std::vector<direction> directions) {
-
-    //https://www.digitalocean.com/community/tutorials/random-number-generator-c-plus-plus
-    // Providing seed value
-    srand((unsigned) time(nullptr));
-
-    int direction = rand() % directions.size();
-
-    return directions.at(direction);
-}
-
-
 // Finding which directions are open and returning vector containing those directions (as enum)
 std::vector<Organism::direction> Human::findOpenDirections() {
 
@@ -80,20 +68,23 @@ std::vector<Organism::direction> Human::findOpenDirections() {
 
     // Checking each direction, making sure Human is not on edge in that direction, and spot is not
     // occupied
+    // west is x-1, east is x+1
+    // north is y-1, south is y+1
+
     // WEST
-    if (x != 0 && city->getOrganism(x - 1, y) == nullptr) {
+    if (x > 0 && city->getOrganism(x - 1, y) == nullptr) {
         openDirections.push_back(WEST);
     }
     // NORTH
-    if (x != 0 && city->getOrganism(x, y - 1) == nullptr) {
+    if (y > 0 && city->getOrganism(x, y - 1) == nullptr) {
         openDirections.push_back(NORTH);
     }
     // EAST
-    if (x != 0 && city->getOrganism(x + 1, y) == nullptr) {
+    if (x < GRID_WIDTH - 1 && city->getOrganism(x + 1, y) == nullptr) {
         openDirections.push_back(EAST);
     }
     // SOUTH
-    if (x != 0 && city->getOrganism(x, y + 1) == nullptr) {
+    if (y < GRID_HEIGHT - 1 && city->getOrganism(x, y + 1) == nullptr) {
         openDirections.push_back(SOUTH);
     }
 
@@ -137,4 +128,4 @@ void Human::recruit() {
 
     }
 
-} // end function Recruit
+}// end function Recruit

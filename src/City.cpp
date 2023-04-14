@@ -2,9 +2,9 @@
 // Created by ewanb on 2023-04-13.
 //
 
+#include "../inc/City.h"
 #include "../inc/Human.h"
 #include "../inc/Zombie.h"
-#include "../inc/City.h"
 
 
 City::City() : generation(1) {
@@ -32,7 +32,9 @@ void City::move() {
 
     for (auto & row : grid) {
         for  (auto & organism : row) {
-            organism->turn();
+            if (organism != nullptr) {
+                organism->turn();
+            }
         }
     }
 
@@ -44,9 +46,13 @@ void City::reset() {
 
     for (auto & row : grid) {
         for  (auto & organism : row) {
-            organism->resetHasMoved();
+            if (organism != nullptr) {
+                organism->resetHasMoved();
+            }
         }
     }
+
+    generation++;
 
 }
 
@@ -112,7 +118,9 @@ int City::countType(char orgType) {
 
     for (auto & row : grid) {
         for  (auto & organism : row) {
-            organism->getOrgType() == orgType? count++ : count;
+            if (organism != nullptr && organism->getOrgType() == orgType) {
+                count++;
+            }
         }
     }
 
@@ -126,31 +134,39 @@ bool City::hasDiversity() {
     return countType(HUMAN_CH) > 0 && countType(ZOMBIE_CH) > 0;
 }
 
+
 std::ostream &operator<<(std::ostream &output, City &city) {
 
     // Outputting top of grid
     for (int i = 0; i < GRID_WIDTH; i++) {
-        output << "_";
+        output << "___";
     }
     output << std::endl;
 
     // Looping through rows
-    for (int y = 0; y < GRID_HEIGHT; y++) {
+    for (auto & row : city.grid) {
         output << "|";
-        for (int x = 0; x < GRID_HEIGHT; ++x) {
+        for (auto & organism : row) {
 
-            // TODO implement outputting proper color and organism type
+            if (organism == nullptr) {
+                output << " " << EMPTY_CH << " ";
+            } else {
+                output << organism;
+            }
 
         }
         output << "|" << std::endl;
     }
 
-    // Outputting top of grid
+    // Outputting bottom of grid
     for (int i = 0; i < GRID_WIDTH; i++) {
-        output << "‾";
+        output << "‾‾‾";
     }
     output << std::endl;
 
     return output;
 
 }
+
+
+City::~City() = default;

@@ -6,6 +6,7 @@
 #define HUMANSVSZOMBIES_CITY_H
 
 #include <iostream>
+#include <array>
 
 #include "GameSpecs.h"
 

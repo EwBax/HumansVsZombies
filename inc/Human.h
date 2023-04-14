@@ -13,15 +13,14 @@ private:
     int recruitCounter;
 
 public:
-    Human();
+    Human() = default;
     Human(City* city, int x, int y) :
     Organism(city, x, y, HUMAN_CH), recruitCounter(0) {}; ;
-    virtual ~Human();
+    ~Human() override = default;
 
     void move() override;
     void turn() override;
-    std::vector<direction> findOpenDirections();
-    static direction pickDirection(std::vector<direction> directions);
+    std::vector<direction> findOpenDirections() override;
 
     void recruit();
 };

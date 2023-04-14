@@ -10,36 +10,38 @@
 #include <array>
 
 #include "GameSpecs.h"
-#include "City.h"
+
+class City;
 
 class Organism
 {
 protected:
-    int x;
-    int y;
-    char orgType;
-    bool hasMoved;
-    City *city;
+    int x{};
+    int y{};
+    char orgType{};
+    bool hasMoved{};
+    City *city{};
 
-    enum {WEST, NORTH, EAST, SOUTH} typedef direction;
+    enum {WEST, NORTH_WEST, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH,
+        SOUTH_WEST} typedef direction;
 
 public:
-    Organism();
+    Organism() = default;
     Organism(City* city, int x, int y, char orgType)
     : city(city), x(x), y(y), orgType(orgType), hasMoved(false) {};
-    virtual ~Organism();
+    virtual ~Organism() = default;
 
     virtual void move() = 0;
     virtual void turn() = 0;
+    virtual std::vector<direction> findOpenDirections() = 0;
     void resetHasMoved();
+    static direction pickDirection(std::vector<direction> directions);
     //virtual void spawn() = 0;
     //virtual int getSpecies() = 0; //this could also be coded concrete here
     //virtual void getPosition() = 0;
 
     void setPosition(int newX, int newY);
     char getOrgType() const {return orgType;}
-    void endTurn();
-    bool isTurn();
 
     friend std::ostream& operator<<(std::ostream &output, Organism *organism);
 };

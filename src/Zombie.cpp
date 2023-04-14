@@ -4,6 +4,7 @@
 
 #include "../inc/Zombie.h"
 #include "../inc/Human.h"
+#include "../inc/City.h"
 
 // Function to handle the zombie's turn
 void Zombie::turn() {
@@ -93,50 +94,59 @@ void Zombie::move() {
 
 
 // Function to find adjacent Human directions
-std::vector<Zombie::direction> Zombie::findHumanDirections() {
+std::vector<Organism::direction> Zombie::findHumanDirections() {
 
     std::vector<Zombie::direction> humanDirections;
 
     // Checking each direction, making sure Zombie is not on edge in that direction
     // Also checking if there is an organism there, and if it is a human
+    // west is x-1, east is x+1
+    // north is y-1, south is y+1
+
     // WEST
-    if (x != 0 && city->getOrganism(x - 1, y) != nullptr
-    && city->getOrganism(x - 1, y)->getOrgType() == HUMAN_CH) {
+    if (x > 0 && city->getOrganism(x - 1, y) != nullptr
+              && city->getOrganism(x - 1, y)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(WEST);
     }
     //NORTH WEST
-    if (x != 0 && city->getOrganism(x - 1, y - 1) != nullptr
-    && city->getOrganism(x - 1, y - 1)->getOrgType() == HUMAN_CH) {
+    if (x > 0 && y > 0
+              && city->getOrganism(x - 1, y - 1) != nullptr
+              && city->getOrganism(x - 1, y - 1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(NORTH_WEST);
     }
     // NORTH
-    if (x != 0 && city->getOrganism(x, y - 1) != nullptr
-    && city->getOrganism(x, y-1)->getOrgType() == HUMAN_CH) {
+    if (y > 0 && city->getOrganism(x, y - 1) != nullptr
+              && city->getOrganism(x, y-1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(NORTH);
     }
     //NORTH EAST
-    if (x != 0 && city->getOrganism(x + 1, y - 1) != nullptr
-    && city->getOrganism(x + 1, y - 1)->getOrgType() == HUMAN_CH) {
+    if (x < GRID_WIDTH - 1 && y > 0
+            && city->getOrganism(x + 1, y - 1) != nullptr
+            && city->getOrganism(x + 1, y - 1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(NORTH_EAST);
     }
     // EAST
-    if (x != 0 && city->getOrganism(x + 1, y) != nullptr
-    && city->getOrganism(x + 1, y)->getOrgType() == HUMAN_CH) {
+    if (x < GRID_WIDTH - 1
+            && city->getOrganism(x + 1, y) != nullptr
+            && city->getOrganism(x + 1, y)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(EAST);
     }
     //SOUTH EAST
-    if (x != 0 && city->getOrganism(x + 1, y + 1) != nullptr
-    && city->getOrganism(x + 1, y + 1)->getOrgType() == HUMAN_CH) {
+    if (x < GRID_WIDTH - 1 && y < GRID_HEIGHT - 1
+            && city->getOrganism(x + 1, y + 1) != nullptr
+            && city->getOrganism(x + 1, y + 1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(SOUTH_EAST);
     }
     // SOUTH
-    if (x != 0 && city->getOrganism(x, y + 1) != nullptr
-    && city->getOrganism(x, y + 1)->getOrgType() == HUMAN_CH) {
+    if (y < GRID_HEIGHT - 1
+            && city->getOrganism(x, y + 1) != nullptr
+            && city->getOrganism(x, y + 1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(SOUTH);
     }
     //SOUTH WEST
-    if (x != 0 && city->getOrganism(x - 1, y + 1) != nullptr
-    && city->getOrganism(x - 1, y + 1)->getOrgType() == HUMAN_CH) {
+    if (x > 0 && y < GRID_HEIGHT - 1
+              && city->getOrganism(x - 1, y + 1) != nullptr
+              && city->getOrganism(x - 1, y + 1)->getOrgType() == HUMAN_CH) {
         humanDirections.push_back(SOUTH_WEST);
     }
 
@@ -146,60 +156,50 @@ std::vector<Zombie::direction> Zombie::findHumanDirections() {
 
 
 // Function to find adjacent open directions
-std::vector<Zombie::direction> Zombie::findOpenDirections() {
+std::vector<Organism::direction> Zombie::findOpenDirections() {
 
     std::vector<Zombie::direction> openDirections;
 
     // Checking each direction, making sure Zombie is not on edge in that direction
     // Also checking if there is an organism there
+    // west is x-1, east is x+1
+    // north is y-1, south is y+1
+
     // WEST
-    if (x != 0 && city->getOrganism(x - 1, y) == nullptr) {
+    if (x > 0 && city->getOrganism(x - 1, y) == nullptr) {
         openDirections.push_back(WEST);
     }
     //NORTH WEST
-    if (x != 0 && city->getOrganism(x - 1, y - 1) == nullptr) {
+    if (x > 0 && y > 0 && city->getOrganism(x - 1, y - 1) == nullptr) {
         openDirections.push_back(NORTH_WEST);
     }
     // NORTH
-    if (x != 0 && city->getOrganism(x, y - 1) == nullptr) {
+    if (y > 0 && city->getOrganism(x, y - 1) == nullptr) {
         openDirections.push_back(NORTH);
     }
     //NORTH EAST
-    if (x != 0 && city->getOrganism(x + 1, y - 1) == nullptr) {
+    if (x < GRID_WIDTH - 1 && y > 0 && city->getOrganism(x + 1, y - 1) == nullptr) {
         openDirections.push_back(NORTH_EAST);
     }
     // EAST
-    if (x != 0 && city->getOrganism(x + 1, y) == nullptr) {
+    if (x < GRID_WIDTH - 1 && city->getOrganism(x + 1, y) == nullptr) {
         openDirections.push_back(EAST);
     }
     //SOUTH EAST
-    if (x != 0 && city->getOrganism(x + 1, y + 1) == nullptr) {
+    if (x < GRID_WIDTH - 1 && y < GRID_HEIGHT - 1 \
+                           && city->getOrganism(x + 1, y + 1) == nullptr) {
         openDirections.push_back(SOUTH_EAST);
     }
     // SOUTH
-    if (x != 0 && city->getOrganism(x, y + 1) == nullptr) {
+    if (y < GRID_HEIGHT - 1 && city->getOrganism(x, y + 1) == nullptr) {
         openDirections.push_back(SOUTH);
     }
     //SOUTH WEST
-    if (x != 0 && city->getOrganism(x - 1, y + 1) == nullptr) {
+    if (x > 0 && y < GRID_HEIGHT - 1 && city->getOrganism(x - 1, y + 1) == nullptr) {
         openDirections.push_back(SOUTH_WEST);
     }
 
     return openDirections;
-}
-
-
-// Function to randomly pick from vector or directions
-Zombie::direction Zombie::pickDirection(std::vector<direction> directions) {
-
-    //https://www.digitalocean.com/community/tutorials/random-number-generator-c-plus-plus
-    // Providing seed value
-    srand((unsigned) time(nullptr));
-
-    int direction = rand() % directions.size();
-
-    return directions.at(direction);
-
 }
 
 
@@ -262,6 +262,7 @@ bool Zombie::breed() {
 void Zombie::starve() {
     city->setOrganism(new Human(city, x, y), x, y);
 }
+
 
 
 
